@@ -1,0 +1,83 @@
+{% load static %}
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Django Public Blog - новая публикация</title>
+    <link rel="stylesheet" href="{% static 'css/archive.css' %}" />
+  </head>
+  <body>
+    <div class="header">
+      <div class="header-navbar">
+        <a href="{% url 'archive' %}"
+          ><img class="logo" src="{% static 'img/dpb-logo.png' %}"
+        /></a>
+        <p class="service-title">Блог сайт</p>
+        <div class="nav-actions">
+          {% if user.is_authenticated %}
+          <a href="{% url 'register' %}" class="register-link"
+            >{{ user.username }}</a
+          >
+          <a href="{% url 'create_post' %}" class="register-link"
+            >Новая запись</a
+          >
+          <a href="{% url 'logout' %}" class="register-link">Покинуть</a>
+          {% else %}
+          <a href="{% url 'register' %}" class="register-link"
+            >Создать аккаунт</a
+          >
+          <a href="{% url 'login' %}" class="register-link">Авторизация</a>
+          <a href="{% url 'create_post' %}" class="register-link"
+            >Новая запись</a
+          >
+          {% endif %}
+        </div>
+      </div>
+      <div class="parallax-banner">
+        <div class="icons-for-parallax">
+          <img
+            class="icon-for-parallax-first"
+            src="{% static 'img/article-icon-for-parallax.png' %}"
+          />
+          <img
+            class="icon-for-parallax-second"
+            src="{% static 'img/article-icon-for-parallax.png' %}"
+          />
+          <img
+            class="icon-for-parallax-third"
+            src="{% static 'img/article-icon-for-parallax.png' %}"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="archive">
+      <a href="{% url 'archive' %}" class="return-link"
+        >&larr; Вернуться к записям</a
+      >
+      <div class="form-section">
+        <h2>Новая запись в блоге</h2>
+        <form method="POST">
+          {% csrf_token %}
+          <input
+            type="text"
+            name="title"
+            placeholder="Название статьи"
+            value="{{ form.title }}"
+          />
+          <textarea name="text" placeholder="Текст статьи">
+{{ form.text }}</textarea
+          >
+          <input type="submit" value="Разместить запись" />
+        </form>
+        {% if form.errors %}
+        <div class="field-errors">{{ form.errors }}</div>
+        {% endif %}
+      </div>
+    </div>
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/helloworld.js' %}"></script>
+    <script src="{% static 'js/fold-post.js' %}"></script>
+    <script src="{% static 'js/highlight-post.js' %}"></script>
+    <script src="{% static 'js/parallax.js' %}"></script>
+  </body>
+</html>
